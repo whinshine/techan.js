@@ -3,11 +3,27 @@
 > <strong>Te</strong>chnical <strong>Ch</strong>art <strong>An</strong>alysis
 
 A visual, technical analysis and charting library built on [D3](https://github.com/mbostock/d3). Build interactive 
-financial charts for modern and mobile browsers. 
+financial charts for modern and mobile browsers.  
+
+The original release has been abandoned for many years and no more updated. Now I update D3 to 5.1.6 and add some new feature.  
+原始版本多年前由André Dumas开发， 但已经多年没有更新。我fork了这个项目， 把D3的版本升级为5.1.6， 并且添加了新功能。
+
+## New Feature
+
+1. Introduced a line drawing function: When the crosshair is visible, you can click and drag the mouse to conveniently draw lines on the candlestick chart, which is helpful for technical analysis.  
+    增加了画线功能， 在显示十字光标的时候点按鼠标并拖动，能方便的在蜡烛图上画线；这能方便技术分析
+2. The ability to add comments on the candlestick chart is available.  
+    在蜡烛图上可以添加comment
+3. The substance is selectable  
+    supstance可以选中
+4. The tradearrow has select and drag functionality.  
+    tradearrow可以选中， 拖动
+5. The tredline is selectable  
+    trendline可以选中
 
 [Examples Gallery](https://github.com/andredumas/techan.js/wiki/Gallery)
 
-TechanJS utilises D3's [reusable chart API](http://bost.ocks.org/mike/chart/) pattern and currently supports a 
+TechanJS utilises D3's [reusable chart API](http://bost.ocks.org/mike/chart/) pattern and currently supports a
 range of [static and interactive plots](http://bl.ocks.org/andredumas/edf630690c10b89be390).
 
 ## Static Plots
@@ -60,7 +76,7 @@ bower install --save techan
 Cloning and building the base project:
 
 ```shell
-git clone https://github.com/andredumas/techan.js.git
+git clone https://github.com/whinshine/techan.js
 cd techan.js
 npm install
 
@@ -75,7 +91,7 @@ grunt
 Cloning the project with all examples and usage:
 
 ```shell
-git clone --recursive https://github.com/andredumas/techan.js.git
+git clone --recursive https://github.com/whinshine/techan.js
 cd techan.js
 npm install
 npm start
