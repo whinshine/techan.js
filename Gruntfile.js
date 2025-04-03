@@ -7,7 +7,7 @@ module.exports = function(grunt) {
     config: {
       banner: '/*\n' +
         ' TechanJS v<%= pkg.version %>\n' +
-        " (c) 2014 - <%= grunt.template.today('yyyy') %> Andre Dumas | https://github.com/andredumas/techan.js\n" +
+        " (c) 2024 - <%= grunt.template.today('yyyy') %> Vincent Hattiny\n" +
         '*/',
       dist: 'techan-<%= pkg.version %>',
       dep: {
@@ -234,8 +234,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('lint', ['newer:jshint', 'newer:jscs']);
   grunt.registerTask('dev', ['lint', 'watchify:dev', 'watchify:test', 'karma:watch:run']);
-  grunt.registerTask('test', ['lint', 'watchify:dev', 'watchify:test', 'karma:test']);
-  grunt.registerTask('examples', ['newer:replace', 'newer:copy']);
+  // grunt.registerTask('test', ['lint', 'watchify:dev', 'watchify:test', 'karma:test']);
+  // grunt.registerTask('examples', ['newer:replace', 'newer:copy']);
   grunt.registerTask('dist', ['browserify:dist', 'usebanner', 'karma:dist']);
   grunt.registerTask('minify', ['uglify', 'karma:minify']);
   grunt.registerTask('serve', ['bower', 'clean', 'filegen:version', 'examples', 'test', 'connect', 'karma:watch:start', 'watch']);
@@ -244,5 +244,5 @@ module.exports = function(grunt) {
   grunt.registerTask('release:minor', ['bump-only:minor', 'default', 'bump-commit']);
   grunt.registerTask('release:major', ['bump-only:major', 'default', 'bump-commit']);
 
-  grunt.registerTask('default', ['jsonlint', 'bower', 'clean', 'filegen:version', 'test', 'dist', 'minify', 'compress']);
+  grunt.registerTask('default', ['jsonlint', 'bower', 'clean', 'filegen:version', 'dist', 'minify', 'compress']);
 };
