@@ -121,6 +121,12 @@ module.exports = function(d3_svg_line, d3_svg_area, d3_line_interpolate, d3_sele
       .enter().append('path').attr('class', arrayJoin(plotNames, ' ') + ' ' + direction);
   }
 
+  // function appendInteractionGroup(g, data, plotNames) {
+  //   var rectGroup = g.selectAll('g.' + arrayJoin(plotNames, '.')).data(function(d) { return [d.filter(data)]; })
+  //     .enter().append('g').attr('class', arrayJoin(plotNames, ' '));
+  //   return rectGroup;
+  // }
+
   function barWidth(x) {
     if(x.band !== undefined) return Math.max(x.band(), 1);
     else return 3; // If it's not a finance time, the user should specify the band calculation (or constant) on the plot
@@ -238,6 +244,8 @@ module.exports = function(d3_svg_line, d3_svg_area, d3_line_interpolate, d3_sele
 
     appendPathsUpDownEqual: appendPathsUpDownEqual,
 
+    // appendInteractionGroup : appendInteractionGroup,
+
     horizontalPathLine: function(accessor_date, x, accessor_value, y) {
       return function(d) {
         if(!d.length) return null;
@@ -288,7 +296,17 @@ module.exports = function(d3_svg_line, d3_svg_area, d3_line_interpolate, d3_sele
               dispatch.call('mouseout', this, d);
             }
           })
-          .on('mousemove', function(d) { dispatch.call('mousemove', this, d); });
+          .on('mousemove', function(d) { dispatch.call('mousemove', this, d); })
+          .on('click', function(d) {
+            var parentElement = d3_select(this.parentNode);
+            if(!parentElement.classed('selected')) {
+              parentElement.classed('selected', true);
+              dispatch.call('selected', this, d);
+            } else {
+              parentElement.classed('selected', false);
+              dispatch.call('unselected', this, d);
+            }
+          });
         };
       },
 

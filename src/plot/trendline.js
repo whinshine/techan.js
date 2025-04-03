@@ -3,7 +3,7 @@
 module.exports = function(d3_behavior_drag, d3_event, d3_select, d3_dispatch, accessor_trendline, plot, plotMixin) {  // Injected dependencies
   function Trendline() { // Closure function
     var p = {},  // Container for private, direct access mixed in variables
-        dispatch = d3_dispatch('mouseenter', 'mouseout', 'mousemove', 'drag', 'dragstart', 'dragend');
+        dispatch = d3_dispatch('mouseenter', 'mouseout', 'mousemove', 'drag', 'dragstart', 'dragend', 'selected', 'unselected');
 
     function trendline(g) {
       var group = p.dataSelector(g),

@@ -9,6 +9,12 @@ module.exports = function() {
     return accessor.p(d);
   }
 
+  var newDate = function(d, _) {
+    if(arguments.length < 2) return d.date;
+    d.date = _;
+    return accessor;
+  };
+
   accessor.date = function(_) {
     if (!arguments.length) return date;
     date = _;
@@ -35,6 +41,7 @@ module.exports = function() {
     accessor.d = date;
     accessor.t = type;
     accessor.p = price;
+    accessor.nd = newDate;
 
     return accessor;
   }

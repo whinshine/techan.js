@@ -18,6 +18,7 @@ module.exports = function() {
     aroon: require('./aroon'),
     stochastic: require('./stochastic'),
     supstance: require('./supstance'),
+    stopline: require('./stopline'),
     williams: require('./williams'),
     bollinger: require('./bollinger')
   };

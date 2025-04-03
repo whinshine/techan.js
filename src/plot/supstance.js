@@ -3,8 +3,9 @@
 module.exports = function(d3_behavior_drag, d3_event, d3_select, d3_dispatch, accessor_supstance, plot, plotMixin) {  // Injected dependencies
   function Supstance() { // Closure function
     var p = {},  // Container for private, direct access mixed in variables
-        dispatch = d3_dispatch('mouseenter', 'mouseout', 'mousemove', 'drag', 'dragstart', 'dragend'),
-        annotationComposer = plot.plotComposer().scope('composed-annotation').plotScale(function(plot) { return plot.axis().scale(); });
+        dispatch = d3_dispatch('mouseenter', 'mouseout', 'mousemove', 'drag', 'dragstart', 'dragend', 'selected', 'unselected'),
+        annotationComposer = plot.plotComposer().scope('composed-annotation').plotScale(function(plot) { return plot.axis().scale(); }),
+        tooltip;
 
     function supstance(g) {
       var group = p.dataSelector(g);
@@ -15,10 +16,13 @@ module.exports = function(d3_behavior_drag, d3_event, d3_select, d3_dispatch, ac
       group.entry.append('g').attr('class', 'axisannotation y').call(annotationComposer);
 
       var interaction = group.entry.append('g').attr('class', 'interaction').style('opacity', 0).style('fill', 'none' )
-        .call(plot.interaction.mousedispatch(dispatch));
+        .call(mousedispatch(dispatch));
 
       interaction.append('path').style('stroke-width', '16px');
-
+      tooltip = d3_select('body>.supstance.tooltip');
+      if (tooltip.empty()) {
+        tooltip = d3_select('body').append("div")	.attr("class", "supstance tooltip").style("opacity", 0);
+      }
       supstance.refresh(g);
     }
 
@@ -39,6 +43,40 @@ module.exports = function(d3_behavior_drag, d3_event, d3_select, d3_dispatch, ac
     function binder() {
       annotationComposer.accessor(p.accessor.v).scale(p.yScale);
       return supstance;
+    }
+
+    function mousedispatch(dispatch) {
+      return function(selection) {
+        return selection.on('mouseenter', function(d) {
+          tooltip.transition()
+              .duration(100)
+              .style("opacity", 0.9);
+            tooltip.html("&nbsp;supstance: " + p.accessor.v(d))
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY) + "px");
+          d3_select(this.parentNode).classed('mouseover', true);
+          dispatch.call('mouseenter', this, d);
+        })
+        .on('mouseleave', function(d) {
+          tooltip.transition().duration(100).style("opacity", 0);
+          var parentElement = d3_select(this.parentNode);
+          if(!parentElement.classed('dragging')) {
+            parentElement.classed('mouseover', false);
+            dispatch.call('mouseout', this, d);
+          }
+        })
+        .on('mousemove', function(d) { dispatch.call('mousemove', this, d); })
+        .on('click', function(d) {
+          var parentElement = d3_select(this.parentNode);
+          if(!parentElement.classed('selected')) {
+            parentElement.classed('selected', true);
+            dispatch.call('selected', this, d);
+          } else {
+            parentElement.classed('selected', false);
+            dispatch.call('unselected', this, d);
+          }
+        });
+      };
     }
 
     // Mixin 'superclass' methods and variables
